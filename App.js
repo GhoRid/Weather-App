@@ -10,9 +10,16 @@ import {
 } from "react-native";
 import * as Location from "expo-location";
 import time from "./time";
+import { Fontisto } from "@expo/vector-icons";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const API_KEY = "121d5907c58b019d48687445659da13d";
+
+const icons = {
+  Clouds: "cloudy",
+  Rain: "rain",
+  Sunny: "day-sunny",
+};
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -85,9 +92,23 @@ export default function App() {
         ) : (
           <View style={styles.day}>
             <Text style={styles.current}>현재 날씨</Text>
-            <Text style={styles.temp}>
-              {parseFloat(currentWeather.main.temp).toFixed(1)}
-            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "90%",
+              }}
+            >
+              <Text style={styles.temp}>
+                {parseFloat(currentWeather.main.temp).toFixed(1)}
+              </Text>
+              <Fontisto
+                name={icons[currentWeather.weather[0].main]}
+                size={68}
+                color="white"
+              />
+            </View>
             <Text style={styles.description}>
               {currentWeather.weather[0].main}
             </Text>
@@ -109,9 +130,23 @@ export default function App() {
               <Text style={styles.time}>
                 {time(day.dt).hours}:{time(day.dt).minutes}
               </Text>
-              <Text style={styles.temp}>
-                {parseFloat(day.main.temp).toFixed(1)}
-              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "90%",
+                }}
+              >
+                <Text style={styles.temp}>
+                  {parseFloat(day.main.temp).toFixed(1)}
+                </Text>
+                <Fontisto
+                  name={icons[day.weather[0].main]}
+                  size={68}
+                  color="white"
+                />
+              </View>
               <Text style={styles.description}>{day.weather[0].main}</Text>
               <Text style={styles.tinyDescription}>
                 {day.weather[0].description}
@@ -143,7 +178,7 @@ const styles = StyleSheet.create({
   day: {
     width: SCREEN_WIDTH,
     flex: 1,
-    alignItems: "center",
+    paddingLeft: 20,
   },
   current: {
     fontSize: 30,
